@@ -2,6 +2,9 @@ import { checkSchema } from 'express-validator';
 
 const bloggerValidationSchema = checkSchema({
   name: {
+    customSanitizer: {
+      options: (value) => value.trim(),
+    },
     isLength: {
       errorMessage: 'Name length cannot exceed 15 characters',
       options: { max: 15, min: 1 },
