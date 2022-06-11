@@ -28,7 +28,7 @@ postsRoute.post('/posts', postValidationSchema, (req: Request, res: Response) =>
   const blogger = bloggersRepository.getBloggerById(req.body.bloggerId?.toString());
 
   if (!req.body.bloggerId || !blogger) {
-    errorsMessages.push({ message: 'Blogger not found', field: 'bloggerName' });
+    errorsMessages.push({ message: 'Blogger not found', field: 'bloggerId' });
   }
 
   if (errorsMessages.length > 0) {
@@ -61,7 +61,7 @@ postsRoute.put('/posts/:id', postValidationSchema, (req: Request, res: Response)
   const blogger = bloggersRepository.getBloggerById(req.body.bloggerId?.toString());
 
   if (!req.body.bloggerId || !blogger) {
-    errorsMessages.push({ message: 'Blogger not found', field: 'bloggerName' });
+    errorsMessages.push({ message: 'Blogger not found', field: 'bloggerId' });
   }
 
   if (errorsMessages.length > 0) {
