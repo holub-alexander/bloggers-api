@@ -4,7 +4,7 @@ const bloggerValidationSchema = checkSchema({
   name: {
     isLength: {
       errorMessage: 'Name length cannot exceed 15 characters',
-      options: { max: 15 },
+      options: { max: 15, min: 1 },
     },
   },
   youtubeUrl: {

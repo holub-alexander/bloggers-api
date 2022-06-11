@@ -30,6 +30,30 @@ bloggersRoute.post('/bloggers', bloggerValidationSchema, (req: Request, res: Res
   }
 });
 
+bloggersRoute.put('/bloggers/:id', bloggerValidationSchema, (req: Request, res: Response) => {
+  const errors = errorsOccured(validationResult(req));
+
+  if (errors.errorsMessages.length > 0) {
+    res.status(400).send(errors);
+
+    return;
+  }
+
+  const isUpdateBlogger = bloggersRepository.updateBloggerById(
+    req.params.id,
+    req.body.name,
+    req.body.youtubeUrl
+  );
+
+  if (isUpdateBlogger) {
+    res.sendStatus(204);
+
+    return;
+  }
+
+  res.sendStatus(404);
+});
+
 bloggersRoute.delete('/bloggers/:id', (req: Request, res: Response) => {
   const result = bloggersRepository.deleteBloggerById(req.params.id);
 

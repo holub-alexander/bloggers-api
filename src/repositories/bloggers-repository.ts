@@ -23,6 +23,19 @@ const bloggersRepository = {
     return newBlogger;
   },
 
+  updateBloggerById: (id: string, name: string, youtubeUrl: string): boolean => {
+    const blogger = BLOGGERS.find((blogger) => blogger.id.toString() === id);
+
+    if (blogger) {
+      blogger.name = name;
+      blogger.youtubeUrl = youtubeUrl;
+
+      return true;
+    }
+
+    return false;
+  },
+
   deleteBloggerById: (id: string): boolean => {
     const index = BLOGGERS.findIndex((blogger) => blogger.id.toString() === id);
 
