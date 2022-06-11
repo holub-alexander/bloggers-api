@@ -24,9 +24,10 @@ postsRoute.get('/posts/:id', (req: Request, res: Response) => {
 postsRoute.post('/posts', postValidationSchema, (req: Request, res: Response) => {
   const errors = errorsOccured(validationResult(req));
   const errorsMessages = errors.errorsMessages;
-  const blogger = bloggersRepository.getBloggerById(req.body.bloggerId.toString());
 
-  if (!blogger) {
+  const blogger = bloggersRepository.getBloggerById(req.body.bloggerId?.toString());
+
+  if (!req.body.bloggerId || !blogger) {
     errorsMessages.push({ message: 'Blogger not found', field: 'bloggerName' });
   }
 
@@ -37,10 +38,12 @@ postsRoute.post('/posts', postValidationSchema, (req: Request, res: Response) =>
   }
 
   const post = postsRepository.addPost(
-    req.body.title,
-    req.body.shortDescription,
-    req.body.content,
-    +req.body.bloggerId,
+    {
+      title: req.body.title,
+      shortDescription: req.body.shortDescription,
+      content: req.body.content,
+      bloggerId: +req.body.bloggerId,
+    },
     blogger!.name
   );
 
@@ -49,6 +52,42 @@ postsRoute.post('/posts', postValidationSchema, (req: Request, res: Response) =>
   } else {
     res.sendStatus(404);
   }
+});
+
+postsRoute.put('/posts/:id', postValidationSchema, (req: Request, res: Response) => {
+  const errors = errorsOccured(validationResult(req));
+  const errorsMessages = errors.errorsMessages;
+
+  const blogger = bloggersRepository.getBloggerById(req.body.bloggerId?.toString());
+
+  if (!req.body.bloggerId || !blogger) {
+    errorsMessages.push({ message: 'Blogger not found', field: 'bloggerName' });
+  }
+
+  if (errorsMessages.length > 0) {
+    res.status(400).send(errors);
+
+    return;
+  }
+
+  const isUpdatePost = postsRepository.updatePostById(
+    req.params.id,
+    {
+      title: req.body.title,
+      shortDescription: req.body.shortDescription,
+      content: req.body.content,
+      bloggerId: +req.body.bloggerId,
+    },
+    blogger!.name
+  );
+
+  if (isUpdatePost) {
+    res.sendStatus(204);
+
+    return;
+  }
+
+  res.sendStatus(404);
 });
 
 postsRoute.delete('/posts/:id', (req: Request, res: Response) => {
