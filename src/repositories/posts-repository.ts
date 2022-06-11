@@ -32,6 +32,18 @@ const postsRepository = {
 
     return newPost;
   },
+
+  deletePostById: (id: string): boolean => {
+    const index = POSTS.findIndex((post) => post.id.toString() === id);
+
+    if (index > -1) {
+      POSTS.splice(index, 1);
+
+      return true;
+    }
+
+    return false;
+  },
 };
 
 export default postsRepository;

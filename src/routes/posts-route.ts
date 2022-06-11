@@ -51,4 +51,14 @@ postsRoute.post('/posts', postValidationSchema, (req: Request, res: Response) =>
   }
 });
 
+postsRoute.delete('/posts/:id', (req: Request, res: Response) => {
+  const result = postsRepository.deletePostById(req.params.id);
+
+  if (result) {
+    res.sendStatus(204);
+  } else {
+    res.sendStatus(404);
+  }
+});
+
 export default postsRoute;
