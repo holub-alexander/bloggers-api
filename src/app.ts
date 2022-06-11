@@ -5,6 +5,8 @@ import { PORT } from './utils/constants';
 
 const app = express();
 
+app.use(express.json());
+
 app.use(bloggersRoute);
 
 app.listen(PORT);
