@@ -6,6 +6,7 @@ import {
   getPostById,
   updatePostById,
 } from '../controllers/posts-controller';
+import authMiddleware from '../middlewares/auth-middleware';
 import postValidationSchema from '../utils/validations/post-validation-schema.ts';
 
 const postsRoute = Router();
@@ -14,10 +15,10 @@ postsRoute.get('/posts', getAllPosts);
 
 postsRoute.get('/posts/:id', getPostById);
 
-postsRoute.post('/posts', postValidationSchema, addPost);
+postsRoute.post('/posts', authMiddleware, postValidationSchema, addPost);
 
-postsRoute.put('/posts/:id', postValidationSchema, updatePostById);
+postsRoute.put('/posts/:id', authMiddleware, postValidationSchema, updatePostById);
 
-postsRoute.delete('/posts/:id', deletePostById);
+postsRoute.delete('/posts/:id', authMiddleware, deletePostById);
 
 export default postsRoute;
