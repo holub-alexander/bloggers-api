@@ -1,6 +1,7 @@
-import { IPost, POSTS } from '../data/posts-data';
-import { IFieldError } from '../types/field-error';
-import { IPostInput } from '../types/post-input';
+import { POSTS } from '../data/posts-data';
+import { IPost } from '../interfaces/post';
+import { IFieldError } from '../interfaces/field-error';
+import { IPostInput } from '../interfaces/post-input';
 
 const postsRepository = {
   getAllPosts: (): IPost[] => {
@@ -13,18 +14,7 @@ const postsRepository = {
     return findPost || null;
   },
 
-  addPost: (data: IPostInput, bloggerName: string): IPost | IFieldError => {
-    const { title, shortDescription, content, bloggerId } = data;
-
-    const newPost: IPost = {
-      id: new Date().valueOf(),
-      title,
-      shortDescription,
-      content,
-      bloggerId,
-      bloggerName,
-    };
-
+  addPost: (newPost: IPost): IPost | IFieldError => {
     POSTS.push(newPost);
 
     return newPost;

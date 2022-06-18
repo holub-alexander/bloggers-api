@@ -1,4 +1,5 @@
-import { BLOGGERS, IBlogger } from '../data/bloggers-data';
+import { BLOGGERS } from '../data/bloggers-data';
+import { IBlogger } from '../interfaces/blogger';
 
 const bloggersRepository = {
   getAllBloggers: (): IBlogger[] => {
@@ -11,13 +12,7 @@ const bloggersRepository = {
     return findBlogger || null;
   },
 
-  addBlogger: (name: string, youtubeUrl: string): IBlogger => {
-    const newBlogger = {
-      id: new Date().valueOf(),
-      name,
-      youtubeUrl,
-    };
-
+  addBlogger: (newBlogger: IBlogger): IBlogger => {
     BLOGGERS.push(newBlogger);
 
     return newBlogger;

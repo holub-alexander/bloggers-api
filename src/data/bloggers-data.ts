@@ -1,8 +1,4 @@
-export interface IBlogger {
-  id: number;
-  name: string;
-  youtubeUrl: string;
-}
+import { IBlogger } from '../interfaces/blogger';
 
 export const BLOGGERS: IBlogger[] = [
   {

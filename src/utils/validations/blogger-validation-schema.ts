@@ -1,4 +1,5 @@
 import { checkSchema } from 'express-validator';
+import { YOUTUBE_URL_REGEXP } from '../regexp';
 
 const bloggerValidationSchema = checkSchema({
   name: {
@@ -17,7 +18,7 @@ const bloggerValidationSchema = checkSchema({
     },
     matches: {
       errorMessage: 'The URL you entered is not in the correct format',
-      options: /^https:\/\/([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$/,
+      options: YOUTUBE_URL_REGEXP,
     },
   },
 });
