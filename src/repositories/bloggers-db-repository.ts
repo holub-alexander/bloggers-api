@@ -3,13 +3,13 @@ import { IBlogger } from '../interfaces/blogger';
 
 const bloggersRepository = {
   getAllBloggers: async (): Promise<IBlogger[]> => {
-    const bloggers = await bloggersCollection.find({}, { projection: { _id: 0 } }).toArray();
+    const bloggers = bloggersCollection.find({}, { projection: { _id: 0 } }).toArray();
 
     return bloggers;
   },
 
   getBloggerById: async (id: string): Promise<IBlogger | null> => {
-    const findBlogger = await bloggersCollection.findOne({ id: +id }, { projection: { _id: 0 } });
+    const findBlogger = bloggersCollection.findOne({ id: +id }, { projection: { _id: 0 } });
 
     return findBlogger || null;
   },
@@ -23,7 +23,7 @@ const bloggersRepository = {
   updateBloggerById: async (id: string, name: string, youtubeUrl: string): Promise<boolean> => {
     const blogger = await bloggersCollection.updateOne({ id: +id }, { $set: { name, youtubeUrl } });
 
-    return blogger.modifiedCount === 1;
+    return blogger.matchedCount === 1;
   },
 
   deleteBloggerById: async (id: string): Promise<boolean> => {

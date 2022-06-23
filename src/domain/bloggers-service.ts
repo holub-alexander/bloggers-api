@@ -2,10 +2,10 @@ import { IBlogger } from '../interfaces/blogger';
 import bloggersRepository from '../repositories/bloggers-db-repository';
 
 const bloggersService = {
-  getAllBloggers: async (): Promise<IBlogger[]> => await bloggersRepository.getAllBloggers(),
+  getAllBloggers: async (): Promise<IBlogger[]> => bloggersRepository.getAllBloggers(),
 
   getBloggerById: async (id: string): Promise<IBlogger | null> =>
-    await bloggersRepository.getBloggerById(id),
+    bloggersRepository.getBloggerById(id),
 
   addBlogger: async (name: string, youtubeUrl: string): Promise<IBlogger> => {
     const newBlogger = {
@@ -14,16 +14,16 @@ const bloggersService = {
       youtubeUrl,
     };
 
-    const result = await bloggersRepository.addBlogger(newBlogger);
+    const result = bloggersRepository.addBlogger(newBlogger);
 
     return result;
   },
 
   updateBloggerById: async (id: string, name: string, youtubeUrl: string): Promise<boolean> =>
-    await bloggersRepository.updateBloggerById(id, name, youtubeUrl),
+    bloggersRepository.updateBloggerById(id, name, youtubeUrl),
 
   deleteBloggerById: async (id: string): Promise<boolean> =>
-    await bloggersRepository.deleteBloggerById(id),
+    bloggersRepository.deleteBloggerById(id),
 };
 
 export default bloggersService;

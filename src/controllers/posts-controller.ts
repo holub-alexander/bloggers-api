@@ -4,12 +4,14 @@ import errorsOccured from '../utils/errors-occured';
 import { validationResult } from 'express-validator';
 import bloggersService from '../domain/bloggers-service';
 
-export const getAllPosts: RequestHandler = (_, res) => {
-  res.send(postsService.getAllPosts());
+export const getAllPosts: RequestHandler = async (_, res) => {
+  const products = await postsService.getAllPosts();
+
+  res.send(products);
 };
 
-export const getPostById: RequestHandler = (req, res) => {
-  const post = postsService.getPostById(req.params.id);
+export const getPostById: RequestHandler = async (req, res) => {
+  const post = await postsService.getPostById(req.params.id);
 
   if (post) {
     res.send(post);
@@ -34,7 +36,7 @@ export const addPost: RequestHandler = async (req, res) => {
     return;
   }
 
-  const post = postsService.addPost(
+  const post = await postsService.addPost(
     {
       title: req.body.title,
       shortDescription: req.body.shortDescription,
@@ -67,7 +69,7 @@ export const updatePostById: RequestHandler = async (req, res) => {
     return;
   }
 
-  const isUpdatePost = postsService.updatePostById(
+  const isUpdatePost = await postsService.updatePostById(
     req.params.id,
     {
       title: req.body.title,
@@ -87,8 +89,8 @@ export const updatePostById: RequestHandler = async (req, res) => {
   res.sendStatus(404);
 };
 
-export const deletePostById: RequestHandler = (req, res) => {
-  const result = postsService.deletePostById(req.params.id);
+export const deletePostById: RequestHandler = async (req, res) => {
+  const result = await postsService.deletePostById(req.params.id);
 
   if (result) {
     res.sendStatus(204);

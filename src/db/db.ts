@@ -1,5 +1,6 @@
 import { MongoClient } from 'mongodb';
 import { IBlogger } from '../interfaces/blogger';
+import { IPost } from '../interfaces/post';
 
 const mongoUrl = process.env.mongoUrl || 'mongodb://0.0.0.0:27017';
 
@@ -7,6 +8,7 @@ export const client = new MongoClient(mongoUrl);
 
 export const db = client.db('bloggersData');
 export const bloggersCollection = db.collection<IBlogger>('bloggers');
+export const postsCollection = db.collection<IPost>('posts');
 
 export async function runDb() {
   try {
