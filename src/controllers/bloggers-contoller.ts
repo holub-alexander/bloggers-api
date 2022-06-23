@@ -3,12 +3,14 @@ import { validationResult } from 'express-validator';
 import bloggersService from '../domain/bloggers-service';
 import errorsOccured from '../utils/errors-occured';
 
-export const getAllBloggers: RequestHandler = (_, res) => {
-  res.send(bloggersService.getAllBloggers());
+export const getAllBloggers: RequestHandler = async (_, res) => {
+  const bloggers = await bloggersService.getAllBloggers();
+
+  res.send(bloggers);
 };
 
-export const getBloggerById: RequestHandler = (req, res) => {
-  const blogger = bloggersService.getBloggerById(req.params.id);
+export const getBloggerById: RequestHandler = async (req, res) => {
+  const blogger = await bloggersService.getBloggerById(req.params.id);
 
   if (blogger) {
     res.send(blogger);
@@ -17,17 +19,19 @@ export const getBloggerById: RequestHandler = (req, res) => {
   }
 };
 
-export const addBlogger: RequestHandler = (req, res) => {
+export const addBlogger: RequestHandler = async (req, res) => {
   const errors = errorsOccured(validationResult(req));
 
   if (errors.errorsMessages.length > 0) {
     res.status(400).send(errors);
   } else {
-    res.status(201).send(bloggersService.addBlogger(req.body.name, req.body.youtubeUrl));
+    const newBlogger = await bloggersService.addBlogger(req.body.name, req.body.youtubeUrl);
+
+    res.status(201).send(newBlogger);
   }
 };
 
-export const updateBloggerById: RequestHandler = (req, res) => {
+export const updateBloggerById: RequestHandler = async (req, res) => {
   const errors = errorsOccured(validationResult(req));
 
   if (errors.errorsMessages.length > 0) {
@@ -36,7 +40,7 @@ export const updateBloggerById: RequestHandler = (req, res) => {
     return;
   }
 
-  const isUpdateBlogger = bloggersService.updateBloggerById(
+  const isUpdateBlogger = await bloggersService.updateBloggerById(
     req.params.id,
     req.body.name,
     req.body.youtubeUrl
@@ -51,8 +55,8 @@ export const updateBloggerById: RequestHandler = (req, res) => {
   res.sendStatus(404);
 };
 
-export const deleteBloggerById: RequestHandler = (req, res) => {
-  const result = bloggersService.deleteBloggerById(req.params.id);
+export const deleteBloggerById: RequestHandler = async (req, res) => {
+  const result = await bloggersService.deleteBloggerById(req.params.id);
 
   if (result) {
     res.sendStatus(204);

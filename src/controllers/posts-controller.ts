@@ -18,11 +18,11 @@ export const getPostById: RequestHandler = (req, res) => {
   }
 };
 
-export const addPost: RequestHandler = (req, res) => {
+export const addPost: RequestHandler = async (req, res) => {
   const errors = errorsOccured(validationResult(req));
   const errorsMessages = errors.errorsMessages;
 
-  const blogger = bloggersService.getBloggerById(req.body.bloggerId?.toString());
+  const blogger = await bloggersService.getBloggerById(req.body.bloggerId?.toString());
 
   if (!req.body.bloggerId || !blogger) {
     errorsMessages.push({ message: 'Blogger not found', field: 'bloggerId' });
@@ -51,11 +51,11 @@ export const addPost: RequestHandler = (req, res) => {
   }
 };
 
-export const updatePostById: RequestHandler = (req, res) => {
+export const updatePostById: RequestHandler = async (req, res) => {
   const errors = errorsOccured(validationResult(req));
   const errorsMessages = errors.errorsMessages;
 
-  const blogger = bloggersService.getBloggerById(req.body.bloggerId?.toString());
+  const blogger = await bloggersService.getBloggerById(req.body.bloggerId?.toString());
 
   if (!req.body.bloggerId || !blogger) {
     errorsMessages.push({ message: 'Blogger not found', field: 'bloggerId' });

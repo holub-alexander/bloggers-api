@@ -1,25 +1,29 @@
 import { IBlogger } from '../interfaces/blogger';
-import bloggersRepository from '../repositories/bloggers-repository';
+import bloggersRepository from '../repositories/bloggers-db-repository';
 
 const bloggersService = {
-  getAllBloggers: (): IBlogger[] => bloggersRepository.getAllBloggers(),
+  getAllBloggers: async (): Promise<IBlogger[]> => await bloggersRepository.getAllBloggers(),
 
-  getBloggerById: (id: string): IBlogger | null => bloggersRepository.getBloggerById(id),
+  getBloggerById: async (id: string): Promise<IBlogger | null> =>
+    await bloggersRepository.getBloggerById(id),
 
-  addBlogger: (name: string, youtubeUrl: string): IBlogger => {
+  addBlogger: async (name: string, youtubeUrl: string): Promise<IBlogger> => {
     const newBlogger = {
       id: new Date().valueOf(),
       name,
       youtubeUrl,
     };
 
-    return bloggersRepository.addBlogger(newBlogger);
+    const result = await bloggersRepository.addBlogger(newBlogger);
+
+    return result;
   },
 
-  updateBloggerById: (id: string, name: string, youtubeUrl: string): boolean =>
-    bloggersRepository.updateBloggerById(id, name, youtubeUrl),
+  updateBloggerById: async (id: string, name: string, youtubeUrl: string): Promise<boolean> =>
+    await bloggersRepository.updateBloggerById(id, name, youtubeUrl),
 
-  deleteBloggerById: (id: string): boolean => bloggersRepository.deleteBloggerById(id),
+  deleteBloggerById: async (id: string): Promise<boolean> =>
+    await bloggersRepository.deleteBloggerById(id),
 };
 
 export default bloggersService;
