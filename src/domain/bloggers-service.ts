@@ -1,8 +1,15 @@
+import { WithId } from 'mongodb';
 import { IBlogger } from '../interfaces/blogger';
+import { IPaginator } from '../interfaces/paginator';
 import bloggersRepository from '../repositories/bloggers-db-repository';
 
 const bloggersService = {
-  getAllBloggers: async (): Promise<IBlogger[]> => bloggersRepository.getAllBloggers(),
+  getAllBloggers: async (
+    pageNumber: number,
+    pageSize: number,
+    searchNameTerm?: string
+  ): Promise<IPaginator<WithId<IBlogger>[]>> =>
+    bloggersRepository.getAllBloggers(pageNumber, pageSize, searchNameTerm),
 
   getBloggerById: async (id: string): Promise<IBlogger | null> =>
     bloggersRepository.getBloggerById(id),

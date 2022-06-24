@@ -7,11 +7,12 @@ import {
   updateBloggerById,
 } from '../controllers/bloggers-contoller';
 import authMiddleware from '../middlewares/auth-middleware';
+import bloggerValidationParams from '../utils/validations/blogger-validation-params';
 import bloggerValidationSchema from '../utils/validations/blogger-validation-schema';
 
 const bloggersRoute = Router();
 
-bloggersRoute.get('/bloggers', getAllBloggers);
+bloggersRoute.get('/bloggers', bloggerValidationParams, getAllBloggers);
 
 bloggersRoute.get('/bloggers/:id', getBloggerById);
 

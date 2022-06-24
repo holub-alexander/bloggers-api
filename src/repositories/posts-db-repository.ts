@@ -11,7 +11,7 @@ const postsRepository = {
     pageNumber: number,
     pageSize: number
   ): Promise<IPaginator<WithId<IPost>[]>> => {
-    const posts = await pagination<IPost>(postsCollection, pageNumber, pageSize);
+    const posts = await pagination<IPost>(postsCollection, {}, pageNumber, pageSize);
 
     return posts;
   },

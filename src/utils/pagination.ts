@@ -4,12 +4,13 @@ import { getNumberSkipItems } from './getNumberSkipItems';
 
 const pagination = async <T>(
   collection: Collection<T>,
+  filter: {},
   pageNumber: number,
   pageSize: number
 ): Promise<IPaginator<WithId<T>[]>> => {
   const skipItems = getNumberSkipItems(pageNumber, pageSize);
   const data = await collection
-    .find({}, { projection: { _id: 0 } })
+    .find(filter, { projection: { _id: 0 } })
     .skip(skipItems)
     .limit(pageSize);
   const totalCount = await collection.count({});

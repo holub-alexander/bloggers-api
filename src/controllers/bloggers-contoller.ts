@@ -3,10 +3,25 @@ import { validationResult } from 'express-validator';
 import bloggersService from '../domain/bloggers-service';
 import errorsOccured from '../utils/errors-occured';
 
-export const getAllBloggers: RequestHandler = async (_, res) => {
-  const bloggers = await bloggersService.getAllBloggers();
+export const getAllBloggers: RequestHandler = async (req, res) => {
+  const errors = errorsOccured(validationResult(req));
+  const errorsMessages = errors.errorsMessages;
 
-  res.send(bloggers);
+  if (errorsMessages.length > 0) {
+    res.status(400).send(errors);
+
+    return;
+  }
+
+  if (!req.query.SearchNameTerm || typeof req.query.SearchNameTerm === 'string') {
+    const bloggers = await bloggersService.getAllBloggers(
+      Number(req.query.PageNumber),
+      Number(req.query.PageSize),
+      req.query.SearchNameTerm
+    );
+
+    res.send(bloggers);
+  }
 };
 
 export const getBloggerById: RequestHandler = async (req, res) => {

@@ -1,9 +1,27 @@
+import { WithId } from 'mongodb';
 import { bloggersCollection } from '../db/db';
 import { IBlogger } from '../interfaces/blogger';
+import { IPaginator } from '../interfaces/paginator';
+import pagination from '../utils/pagination';
 
 const bloggersRepository = {
-  getAllBloggers: async (): Promise<IBlogger[]> => {
-    const bloggers = bloggersCollection.find({}, { projection: { _id: 0 } }).toArray();
+  getAllBloggers: async (
+    pageNumber: number,
+    pageSize: number,
+    searchNameTerm?: string
+  ): Promise<IPaginator<WithId<IBlogger>[]>> => {
+    let bloggers = null;
+
+    if (searchNameTerm) {
+      bloggers = await pagination<IBlogger>(
+        bloggersCollection,
+        { name: searchNameTerm },
+        pageNumber,
+        pageSize
+      );
+    } else {
+      bloggers = await pagination<IBlogger>(bloggersCollection, {}, pageNumber, pageSize);
+    }
 
     return bloggers;
   },

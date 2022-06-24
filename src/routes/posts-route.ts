@@ -7,7 +7,7 @@ import {
   updatePostById,
 } from '../controllers/posts-controller';
 import authMiddleware from '../middlewares/auth-middleware';
-import postValidationParameters from '../utils/validations/post-validation-parameters';
+import postValidationParameters from '../utils/validations/post-validation-params';
 import postValidationSchema from '../utils/validations/post-validation-schema.ts';
 
 const postsRoute = Router();

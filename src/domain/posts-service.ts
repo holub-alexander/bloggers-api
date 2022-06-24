@@ -6,10 +6,8 @@ import { IPaginator } from '../interfaces/paginator';
 import { WithId } from 'mongodb';
 
 const postsService = {
-  getAllPosts: async (
-    pageNumber: number = 1,
-    pageSize: number = 1
-  ): Promise<IPaginator<WithId<IPost>[]>> => postsRepository.getAllPosts(pageNumber, pageSize),
+  getAllPosts: async (pageNumber: number, pageSize: number): Promise<IPaginator<WithId<IPost>[]>> =>
+    postsRepository.getAllPosts(pageNumber, pageSize),
 
   getPostById: async (id: string): Promise<IPost | null> => postsRepository.getPostById(id),
 
