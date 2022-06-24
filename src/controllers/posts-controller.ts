@@ -4,8 +4,20 @@ import errorsOccured from '../utils/errors-occured';
 import { validationResult } from 'express-validator';
 import bloggersService from '../domain/bloggers-service';
 
-export const getAllPosts: RequestHandler = async (_, res) => {
-  const products = await postsService.getAllPosts();
+export const getAllPosts: RequestHandler = async (req, res) => {
+  const errors = errorsOccured(validationResult(req));
+  const errorsMessages = errors.errorsMessages;
+
+  if (errorsMessages.length > 0) {
+    res.status(400).send(errors);
+
+    return;
+  }
+
+  const products = await postsService.getAllPosts(
+    Number(req.query.pageNumber),
+    Number(req.query.pageSize)
+  );
 
   res.send(products);
 };

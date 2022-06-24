@@ -2,7 +2,12 @@ import { MongoClient } from 'mongodb';
 import { IBlogger } from '../interfaces/blogger';
 import { IPost } from '../interfaces/post';
 
-const mongoUrl = process.env.mongoUrl || 'mongodb://0.0.0.0:27017';
+const username = encodeURIComponent('alexander_holub');
+const password = encodeURIComponent('za-123-6');
+const cluster = 'cluster0.1r5pvba.mongodb.net';
+
+const mongoUrl =
+  process.env.mongoUrl || `mongodb+srv://${username}:${password}@${cluster}/?retryWrites=true`; // mongodb://0.0.0.0:27017
 
 export const client = new MongoClient(mongoUrl);
 

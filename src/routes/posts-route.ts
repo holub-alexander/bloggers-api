@@ -7,11 +7,12 @@ import {
   updatePostById,
 } from '../controllers/posts-controller';
 import authMiddleware from '../middlewares/auth-middleware';
+import postValidationParameters from '../utils/validations/post-validation-parameters';
 import postValidationSchema from '../utils/validations/post-validation-schema.ts';
 
 const postsRoute = Router();
 
-postsRoute.get('/posts', getAllPosts);
+postsRoute.get('/posts', postValidationParameters, getAllPosts);
 
 postsRoute.get('/posts/:id', getPostById);
 

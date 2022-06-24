@@ -1,12 +1,17 @@
-import { POSTS } from '../data/posts-data';
 import { IPost } from '../interfaces/post';
 import { IFieldError } from '../interfaces/field-error';
 import { IPostInput } from '../interfaces/post-input';
 import { postsCollection } from '../db/db';
+import pagination from '../utils/pagination';
+import { IPaginator } from '../interfaces/paginator';
+import { WithId } from 'mongodb';
 
 const postsRepository = {
-  getAllPosts: async (): Promise<IPost[]> => {
-    const posts = postsCollection.find({}, { projection: { _id: 0 } }).toArray();
+  getAllPosts: async (
+    pageNumber: number,
+    pageSize: number
+  ): Promise<IPaginator<WithId<IPost>[]>> => {
+    const posts = await pagination<IPost>(postsCollection, pageNumber, pageSize);
 
     return posts;
   },

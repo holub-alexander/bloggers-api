@@ -2,9 +2,14 @@ import { IPost } from '../interfaces/post';
 import { IFieldError } from '../interfaces/field-error';
 import { IPostInput } from '../interfaces/post-input';
 import postsRepository from '../repositories/posts-db-repository';
+import { IPaginator } from '../interfaces/paginator';
+import { WithId } from 'mongodb';
 
 const postsService = {
-  getAllPosts: async (): Promise<IPost[]> => postsRepository.getAllPosts(),
+  getAllPosts: async (
+    pageNumber: number = 1,
+    pageSize: number = 1
+  ): Promise<IPaginator<WithId<IPost>[]>> => postsRepository.getAllPosts(pageNumber, pageSize),
 
   getPostById: async (id: string): Promise<IPost | null> => postsRepository.getPostById(id),
 
