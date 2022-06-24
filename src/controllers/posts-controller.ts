@@ -48,9 +48,9 @@ export const addPost: RequestHandler = async (req, res) => {
   console.log('BLOGGER ========>', req.params?.bloggerId);
 
   // if (req.params?.bloggerId && !blogger) {
-  // res.sendStatus(404);
+  //   res.sendStatus(404);
 
-  // return;
+  //   return;
   // }
 
   if (errorsMessages.length > 0) {
@@ -153,8 +153,10 @@ export const addPostForBlogger: RequestHandler = async (req, res) => {
 
   const blogger = await bloggersService.getBloggerById(req.body.bloggerId?.toString());
 
-  if (!req.body.bloggerId || !blogger) {
-    errorsMessages.push({ message: 'Blogger not found', field: 'bloggerId' });
+  if (req.params.bloggerId && !blogger) {
+    res.sendStatus(404);
+
+    return;
   }
 
   if (errorsMessages.length > 0) {
