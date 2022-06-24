@@ -15,8 +15,8 @@ export const getAllPosts: RequestHandler = async (req, res) => {
   }
 
   const products = await postsService.getAllPosts(
-    Number(req.query.pageNumber) || 1,
-    Number(req.query.pageSize) || 10
+    Number(req.query.PageNumber),
+    Number(req.query.PageSize)
   );
 
   res.send(products);
