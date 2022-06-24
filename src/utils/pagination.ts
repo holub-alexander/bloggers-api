@@ -13,7 +13,7 @@ const pagination = async <T>(
     .find(filter, { projection: { _id: 0 } })
     .skip(skipItems)
     .limit(pageSize);
-  const totalCount = await collection.count({});
+  const totalCount = await collection.count(filter);
   const pagesCount = Math.ceil(totalCount / pageSize);
 
   const arr = await data.toArray();
