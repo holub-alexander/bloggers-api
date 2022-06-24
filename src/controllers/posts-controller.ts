@@ -45,13 +45,11 @@ export const addPost: RequestHandler = async (req, res) => {
     errorsMessages.push({ message: 'Blogger not found', field: 'bloggerId' });
   }
 
-  console.log('BLOGGER ========>', req.params?.bloggerId);
+  if (req.params.bloggerId && !blogger) {
+    res.sendStatus(404);
 
-  // if (req.params?.bloggerId && !blogger) {
-  //   res.sendStatus(404);
-
-  //   return;
-  // }
+    return;
+  }
 
   if (errorsMessages.length > 0) {
     res.status(400).send(errors);
@@ -145,39 +143,4 @@ export const getAllBloggerPosts: RequestHandler = async (req, res) => {
   );
 
   res.send(posts);
-};
-
-export const addPostForBlogger: RequestHandler = async (req, res) => {
-  const errors = errorsOccured(validationResult(req));
-  const errorsMessages = errors.errorsMessages;
-
-  const blogger = await bloggersService.getBloggerById(req.body.bloggerId?.toString());
-
-  if (req.params.bloggerId && !blogger) {
-    res.sendStatus(404);
-
-    return;
-  }
-
-  if (errorsMessages.length > 0) {
-    res.status(400).send(errors);
-
-    return;
-  }
-
-  const post = await postsService.addPost(
-    {
-      title: req.body.title,
-      shortDescription: req.body.shortDescription,
-      content: req.body.content,
-      bloggerId: +req.params.bloggerId,
-    },
-    blogger!.name
-  );
-
-  if (post) {
-    res.status(201).send(post);
-  } else {
-    res.sendStatus(404);
-  }
 };
