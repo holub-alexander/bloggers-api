@@ -41,6 +41,8 @@ export const addPost: RequestHandler = async (req, res) => {
 
   const blogger = await bloggersService.getBloggerById(currentBloggerId);
 
+  console.log('CURRENT ===>', currentBloggerId, blogger);
+
   if (!currentBloggerId || !blogger) {
     errorsMessages.push({ message: 'Blogger not found', field: 'bloggerId' });
   }
