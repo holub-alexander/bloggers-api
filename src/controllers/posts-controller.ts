@@ -45,6 +45,8 @@ export const addPost: RequestHandler = async (req, res) => {
     errorsMessages.push({ message: 'Blogger not found', field: 'bloggerId' });
   }
 
+  console.log('BLOGGER ========>', req.params?.bloggerId);
+
   // if (req.params?.bloggerId && !blogger) {
   // res.sendStatus(404);
 
