@@ -12,7 +12,7 @@ import postValidationSchema from '../utils/validations/post-validation-schema.ts
 
 const postsRoute = Router();
 
-postsRoute.get('/posts', postValidationParameters, getAllPosts);
+postsRoute.get('/posts', getAllPosts);
 
 postsRoute.get('/posts/:id', getPostById);
 
