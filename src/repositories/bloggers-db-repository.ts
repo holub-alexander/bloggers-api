@@ -3,6 +3,7 @@ import { bloggersCollection } from '../db/db';
 import { IBlogger } from '../interfaces/blogger';
 import { IPaginator } from '../interfaces/paginator';
 import pagination from '../utils/pagination';
+import { SEARCH_NAME_BLOGGER_REGEXP } from '../utils/regexp';
 
 const bloggersRepository = {
   getAllBloggers: async (
@@ -15,7 +16,7 @@ const bloggersRepository = {
     if (searchNameTerm) {
       bloggers = await pagination<IBlogger>(
         bloggersCollection,
-        { name: { $regex: new RegExp(`^${searchNameTerm}.*`, 'gi') } },
+        { name: { $regex: SEARCH_NAME_BLOGGER_REGEXP(searchNameTerm) } },
         pageNumber,
         pageSize
       );

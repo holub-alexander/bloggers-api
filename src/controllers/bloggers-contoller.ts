@@ -25,6 +25,8 @@ export const getAllBloggers: RequestHandler = async (req, res) => {
 };
 
 export const getBloggerById: RequestHandler = async (req, res) => {
+  console.log(typeof req.params.id);
+
   const blogger = await bloggersService.getBloggerById(req.params.id);
 
   if (blogger) {

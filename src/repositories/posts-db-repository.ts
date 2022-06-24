@@ -43,6 +43,16 @@ const postsRepository = {
 
     return deletedPost.deletedCount === 1;
   },
+
+  getAllBloggerPosts: async (
+    bloggerId: number,
+    pageNumber: number,
+    pageSize: number
+  ): Promise<IPaginator<WithId<IPost>[]>> => {
+    const posts = await pagination<IPost>(postsCollection, { bloggerId }, pageNumber, pageSize);
+
+    return posts;
+  },
 };
 
 export default postsRepository;

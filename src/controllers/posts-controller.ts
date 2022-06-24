@@ -14,12 +14,12 @@ export const getAllPosts: RequestHandler = async (req, res) => {
     return;
   }
 
-  const products = await postsService.getAllPosts(
+  const posts = await postsService.getAllPosts(
     Number(req.query.PageNumber),
     Number(req.query.PageSize)
   );
 
-  res.send(products);
+  res.send(posts);
 };
 
 export const getPostById: RequestHandler = async (req, res) => {
@@ -35,10 +35,13 @@ export const getPostById: RequestHandler = async (req, res) => {
 export const addPost: RequestHandler = async (req, res) => {
   const errors = errorsOccured(validationResult(req));
   const errorsMessages = errors.errorsMessages;
+  const currentBloggerId = req.params.bloggerId
+    ? req.params.bloggerId
+    : req.body.bloggerId?.toString();
 
-  const blogger = await bloggersService.getBloggerById(req.body.bloggerId?.toString());
+  const blogger = await bloggersService.getBloggerById(currentBloggerId);
 
-  if (!req.body.bloggerId || !blogger) {
+  if (!currentBloggerId || !blogger) {
     errorsMessages.push({ message: 'Blogger not found', field: 'bloggerId' });
   }
 
@@ -53,7 +56,7 @@ export const addPost: RequestHandler = async (req, res) => {
       title: req.body.title,
       shortDescription: req.body.shortDescription,
       content: req.body.content,
-      bloggerId: +req.body.bloggerId,
+      bloggerId: +currentBloggerId,
     },
     blogger!.name
   );
@@ -106,6 +109,58 @@ export const deletePostById: RequestHandler = async (req, res) => {
 
   if (result) {
     res.sendStatus(204);
+  } else {
+    res.sendStatus(404);
+  }
+};
+
+export const getAllBloggerPosts: RequestHandler = async (req, res) => {
+  const errors = errorsOccured(validationResult(req));
+  const errorsMessages = errors.errorsMessages;
+
+  if (errorsMessages.length > 0) {
+    res.status(400).send(errors);
+
+    return;
+  }
+
+  const posts = await postsService.getAllBloggerPosts(
+    +req.params.bloggerId,
+    Number(req.query.PageNumber),
+    Number(req.query.PageSize)
+  );
+
+  res.send(posts);
+};
+
+export const addPostForBlogger: RequestHandler = async (req, res) => {
+  const errors = errorsOccured(validationResult(req));
+  const errorsMessages = errors.errorsMessages;
+
+  const blogger = await bloggersService.getBloggerById(req.body.bloggerId?.toString());
+
+  if (!req.body.bloggerId || !blogger) {
+    errorsMessages.push({ message: 'Blogger not found', field: 'bloggerId' });
+  }
+
+  if (errorsMessages.length > 0) {
+    res.status(400).send(errors);
+
+    return;
+  }
+
+  const post = await postsService.addPost(
+    {
+      title: req.body.title,
+      shortDescription: req.body.shortDescription,
+      content: req.body.content,
+      bloggerId: +req.params.bloggerId,
+    },
+    blogger!.name
+  );
+
+  if (post) {
+    res.status(201).send(post);
   } else {
     res.sendStatus(404);
   }

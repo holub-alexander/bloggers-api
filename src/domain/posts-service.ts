@@ -31,6 +31,13 @@ const postsService = {
     postsRepository.updatePostById(id, data, bloggerName),
 
   deletePostById: async (id: string): Promise<boolean> => postsRepository.deletePostById(id),
+
+  getAllBloggerPosts: async (
+    bloggerId: number,
+    pageNumber: number,
+    pageSize: number
+  ): Promise<IPaginator<WithId<IPost>[]>> =>
+    postsRepository.getAllBloggerPosts(bloggerId, pageNumber, pageSize),
 };
 
 export default postsService;
