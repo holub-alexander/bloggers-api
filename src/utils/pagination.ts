@@ -14,14 +14,13 @@ const pagination = async <T>(
     .limit(pageSize);
   const totalCount = await collection.count({});
   const pagesCount = Math.ceil(totalCount / pageSize);
-  const numberOnPage = await data.count();
 
   const arr = await data.toArray();
 
   const res: IPaginator<WithId<T>[]> = {
     pagesCount,
     page: pageNumber,
-    pageSize: numberOnPage,
+    pageSize,
     totalCount,
     items: arr,
   };
