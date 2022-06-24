@@ -15,7 +15,7 @@ const bloggersRepository = {
     if (searchNameTerm) {
       bloggers = await pagination<IBlogger>(
         bloggersCollection,
-        { name: searchNameTerm },
+        { name: { $regex: new RegExp(`^${searchNameTerm}.*`, 'gi') } },
         pageNumber,
         pageSize
       );
