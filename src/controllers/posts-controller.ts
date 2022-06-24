@@ -122,7 +122,7 @@ export const getAllBloggerPosts: RequestHandler = async (req, res) => {
   const errors = errorsOccured(validationResult(req));
   const errorsMessages = errors.errorsMessages;
 
-  const blogger = await bloggersService.getBloggerById(req.body.bloggerId?.toString());
+  const blogger = await bloggersService.getBloggerById(req.params.bloggerId?.toString());
 
   if (!blogger) {
     res.sendStatus(404);
