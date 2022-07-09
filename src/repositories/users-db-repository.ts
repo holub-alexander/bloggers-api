@@ -10,8 +10,10 @@ const usersRepository = {
       login: userData.login,
       // @ts-ignore
       password: userData.password,
-      _id: undefined,
+      id: newUser.id,
     });
+
+    console.log(await usersCollection.find({}).toArray());
 
     return newUser;
   },

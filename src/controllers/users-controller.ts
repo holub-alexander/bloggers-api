@@ -39,6 +39,8 @@ export const getAllUsers = async (req: Request, res: Response): Promise<void> =>
 export const deleteUserById = async (req: Request, res: Response): Promise<void> => {
   const isDeleteUser = await usersService.deleteUserById(req.params.id);
 
+  console.log('id', req.params.id);
+
   if (isDeleteUser) {
     res.sendStatus(204);
 

@@ -96,7 +96,7 @@ export const updatePostById: RequestHandler = async (req, res) => {
       title: req.body.title,
       shortDescription: req.body.shortDescription,
       content: req.body.content,
-      bloggerId: +req.body.bloggerId,
+      bloggerId: req.body.bloggerId,
     },
     blogger!.name
   );
