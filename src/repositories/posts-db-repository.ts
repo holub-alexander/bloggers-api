@@ -17,7 +17,7 @@ const postsRepository = {
   },
 
   getPostById: async (id: string): Promise<IPost | null> => {
-    const findPost = postsCollection.findOne({ id: +id }, { projection: { _id: 0 } });
+    const findPost = postsCollection.findOne({ id }, { projection: { _id: 0 } });
 
     return findPost || null;
   },
@@ -31,7 +31,7 @@ const postsRepository = {
   updatePostById: async (id: string, data: IPostInput, bloggerName: string): Promise<boolean> => {
     const { title = '', shortDescription = '', content = '', bloggerId } = data;
     const post = await postsCollection.updateOne(
-      { id: +id },
+      { id },
       { $set: { title, shortDescription, content, bloggerId, bloggerName } }
     );
 
@@ -39,7 +39,7 @@ const postsRepository = {
   },
 
   deletePostById: async (id: string): Promise<boolean> => {
-    const deletedPost = await postsCollection.deleteOne({ id: +id });
+    const deletedPost = await postsCollection.deleteOne({ id });
 
     return deletedPost.deletedCount === 1;
   },
