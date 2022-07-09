@@ -36,8 +36,8 @@ export const addPost: RequestHandler = async (req, res) => {
   const errors = errorsOccured(validationResult(req));
   const errorsMessages = errors.errorsMessages;
   const currentBloggerId = req.params.bloggerId
-    ? req.params.bloggerId
-    : req.body.bloggerId?.toString();
+    ? req.params.bloggerId.toString()
+    : req.body.bloggerId.toString();
 
   const blogger = await bloggersService.getBloggerById(currentBloggerId);
 
@@ -62,7 +62,7 @@ export const addPost: RequestHandler = async (req, res) => {
       title: req.body.title,
       shortDescription: req.body.shortDescription,
       content: req.body.content,
-      bloggerId: +currentBloggerId,
+      bloggerId: currentBloggerId,
     },
     blogger!.name
   );
