@@ -1,9 +1,9 @@
-import { Request, Response } from 'express';
+import { RequestHandler } from 'express';
 import { validationResult } from 'express-validator';
 import usersService from '../domain/users-service';
 import errorsOccured from '../utils/errors-occured';
 
-export const addUser = async (req: Request, res: Response): Promise<void> => {
+export const addUser: RequestHandler = async (req, res): Promise<void> => {
   const errors = errorsOccured(validationResult(req));
   const errorsMessages = errors.errorsMessages;
 
@@ -18,7 +18,7 @@ export const addUser = async (req: Request, res: Response): Promise<void> => {
   res.status(201).send(newUser);
 };
 
-export const getAllUsers = async (req: Request, res: Response): Promise<void> => {
+export const getAllUsers: RequestHandler = async (req, res): Promise<void> => {
   const errors = errorsOccured(validationResult(req));
   const errorsMessages = errors.errorsMessages;
 
@@ -36,7 +36,7 @@ export const getAllUsers = async (req: Request, res: Response): Promise<void> =>
   res.send(users);
 };
 
-export const deleteUserById = async (req: Request, res: Response): Promise<void> => {
+export const deleteUserById: RequestHandler = async (req, res): Promise<void> => {
   const isDeleteUser = await usersService.deleteUserById(req.params.id);
 
   console.log('id', req.params.id);

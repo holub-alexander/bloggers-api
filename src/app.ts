@@ -1,10 +1,11 @@
 import express from 'express';
 
-import bloggersRoute from './routes/bloggers-route';
-import postsRoute from './routes/posts-route';
+import bloggersRoute from './routes/bloggers-router';
+import postsRoute from './routes/posts-router';
 import { PORT } from './utils/constants';
 import { runDb } from './db/db';
-import usersRouter from './routes/users-route';
+import usersRouter from './routes/users-router';
+import authRouter from './routes/auth-router';
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(express.json());
 app.use(bloggersRoute);
 app.use(postsRoute);
 app.use(usersRouter);
+app.use(authRouter);
 
 const startApp = async () => {
   await runDb();

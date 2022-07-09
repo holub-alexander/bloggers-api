@@ -1,7 +1,7 @@
 import { MongoClient } from 'mongodb';
 import { IBlogger } from '../interfaces/blogger';
 import { IPost } from '../interfaces/post';
-import { IUser } from '../interfaces/user';
+import { UserWithId } from '../types/user-with-id';
 
 const username = encodeURIComponent('alexander_holub');
 const password = encodeURIComponent('za-123-6');
@@ -15,7 +15,7 @@ export const client = new MongoClient(mongoUrl);
 export const db = client.db('bloggersData');
 export const bloggersCollection = db.collection<IBlogger>('bloggers');
 export const postsCollection = db.collection<IPost>('posts');
-export const usersCollection = db.collection<IUser>('users');
+export const usersCollection = db.collection<UserWithId>('users');
 
 export async function runDb() {
   try {
