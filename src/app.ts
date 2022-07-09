@@ -4,6 +4,7 @@ import bloggersRoute from './routes/bloggers-route';
 import postsRoute from './routes/posts-route';
 import { PORT } from './utils/constants';
 import { runDb } from './db/db';
+import usersRouter from './routes/users-route';
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(express.json());
 
 app.use(bloggersRoute);
 app.use(postsRoute);
+app.use(usersRouter);
 
 const startApp = async () => {
   await runDb();
