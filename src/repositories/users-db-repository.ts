@@ -23,6 +23,8 @@ const usersRepository = {
   },
 
   delteUserById: async (id: string): Promise<boolean> => {
+    console.log('ID ====>', id);
+
     const deletedUser = await usersCollection.deleteOne({ login: id });
 
     return deletedUser.deletedCount === 1;
