@@ -4,6 +4,6 @@ import userCreateSchema from '../utils/schemes/user-create-schema';
 
 const authRouter = Router();
 
-authRouter.post('/auth/login', userCreateSchema, loginUser);
+authRouter.post('/auth/login', loginUser);
 
 export default authRouter;
