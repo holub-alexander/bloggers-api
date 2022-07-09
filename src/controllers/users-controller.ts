@@ -1,17 +1,9 @@
 import { RequestHandler } from 'express';
-import { validationResult } from 'express-validator';
 import usersService from '../domain/users-service';
-import errorsOccured from '../utils/errors-occured';
+import { errorHandlingMiddleware } from '../middlewares/error-handling-middleware';
 
 export const addUser: RequestHandler = async (req, res): Promise<void> => {
-  const errors = errorsOccured(validationResult(req));
-  const errorsMessages = errors.errorsMessages;
-
-  if (errorsMessages.length > 0) {
-    res.status(400).send(errors);
-
-    return;
-  }
+  errorHandlingMiddleware(req, res);
 
   const newUser = await usersService.addUser(req.body.login, req.body.password);
 
@@ -19,14 +11,7 @@ export const addUser: RequestHandler = async (req, res): Promise<void> => {
 };
 
 export const getAllUsers: RequestHandler = async (req, res): Promise<void> => {
-  const errors = errorsOccured(validationResult(req));
-  const errorsMessages = errors.errorsMessages;
-
-  if (errorsMessages.length > 0) {
-    res.status(400).send(errors);
-
-    return;
-  }
+  errorHandlingMiddleware(req, res);
 
   const users = await usersService.getAllUsers(
     Number(req.query.PageNumber),
@@ -38,8 +23,6 @@ export const getAllUsers: RequestHandler = async (req, res): Promise<void> => {
 
 export const deleteUserById: RequestHandler = async (req, res): Promise<void> => {
   const isDeleteUser = await usersService.deleteUserById(req.params.id);
-
-  console.log('id', req.params.id);
 
   if (isDeleteUser) {
     res.sendStatus(204);

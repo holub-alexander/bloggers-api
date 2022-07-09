@@ -3,16 +3,10 @@ import postsService from '../domain/posts-service';
 import errorsOccured from '../utils/errors-occured';
 import { validationResult } from 'express-validator';
 import bloggersService from '../domain/bloggers-service';
+import { errorHandlingMiddleware } from '../middlewares/error-handling-middleware';
 
 export const getAllPosts: RequestHandler = async (req, res) => {
-  const errors = errorsOccured(validationResult(req));
-  const errorsMessages = errors.errorsMessages;
-
-  if (errorsMessages.length > 0) {
-    res.status(400).send(errors);
-
-    return;
-  }
+  errorHandlingMiddleware(req, res);
 
   const posts = await postsService.getAllPosts(
     Number(req.query.PageNumber),
