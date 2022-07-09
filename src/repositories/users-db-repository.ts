@@ -23,7 +23,7 @@ const usersRepository = {
   },
 
   delteUserById: async (id: string): Promise<boolean> => {
-    const deletedUser = await usersCollection.deleteOne({ id });
+    const deletedUser = await usersCollection.deleteOne({ login: id });
 
     return deletedUser.deletedCount === 1;
   },
