@@ -13,23 +13,21 @@ const usersRepository = {
       id: newUser.id,
     });
 
-    console.log(await usersCollection.find({}).toArray());
-
     return newUser;
   },
 
   getAllUsers: async (pageNumber: number, pageSize: number): Promise<UsersPaginator> => {
-    const users = await pagination<IUser>(usersCollection, {}, pageNumber, pageSize);
+    const users = await pagination<IUser>(usersCollection, {}, pageNumber, pageSize, {
+      id: 1,
+      login: 1,
+      _id: 0,
+    });
 
     return users;
   },
 
   delteUserById: async (id: string): Promise<boolean> => {
-    console.log('ID ====>', id);
-
     const deletedUser = await usersCollection.deleteOne({ id });
-
-    // usersCollection.deleteMany({});
 
     return deletedUser.deletedCount === 1;
   },

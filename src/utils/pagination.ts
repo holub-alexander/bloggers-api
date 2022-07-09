@@ -6,13 +6,11 @@ const pagination = async <T>(
   collection: Collection<T>,
   filter: {},
   pageNumber: number,
-  pageSize: number
+  pageSize: number,
+  projection: {} = { _id: 0 }
 ): Promise<IPaginator<WithId<T>[]>> => {
   const skipItems = getNumberSkipItems(pageNumber, pageSize);
-  const data = await collection
-    .find(filter, { projection: { _id: 0 } })
-    .skip(skipItems)
-    .limit(pageSize);
+  const data = await collection.find(filter, { projection }).skip(skipItems).limit(pageSize);
   const totalCount = await collection.count(filter);
   const pagesCount = Math.ceil(totalCount / pageSize);
 
