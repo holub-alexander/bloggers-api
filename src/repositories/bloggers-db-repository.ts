@@ -28,7 +28,7 @@ const bloggersRepository = {
   },
 
   getBloggerById: async (id: string): Promise<IBlogger | null> => {
-    const findBlogger = bloggersCollection.findOne({ id: +id }, { projection: { _id: 0 } });
+    const findBlogger = bloggersCollection.findOne({ id }, { projection: { _id: 0 } });
 
     return findBlogger || null;
   },
@@ -40,13 +40,13 @@ const bloggersRepository = {
   },
 
   updateBloggerById: async (id: string, name: string, youtubeUrl: string): Promise<boolean> => {
-    const blogger = await bloggersCollection.updateOne({ id: +id }, { $set: { name, youtubeUrl } });
+    const blogger = await bloggersCollection.updateOne({ id }, { $set: { name, youtubeUrl } });
 
     return blogger.matchedCount === 1;
   },
 
   deleteBloggerById: async (id: string): Promise<boolean> => {
-    const deletedBlogger = await bloggersCollection.deleteOne({ id: +id });
+    const deletedBlogger = await bloggersCollection.deleteOne({ id });
 
     return deletedBlogger.deletedCount === 1;
   },

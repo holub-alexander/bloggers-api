@@ -14,7 +14,7 @@ const postsService = {
   addPost: async (data: IPostInput, bloggerName: string): Promise<IPost | IFieldError> => {
     const { title, shortDescription, content, bloggerId } = data;
     const newPost: IPost = {
-      id: new Date().valueOf(),
+      id: new Date().valueOf().toString(),
       title,
       shortDescription,
       content,

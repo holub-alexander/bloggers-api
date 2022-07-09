@@ -1,5 +1,5 @@
 export interface IBlogger {
-  id: number;
+  id: string;
   name: string;
   youtubeUrl: string;
 }

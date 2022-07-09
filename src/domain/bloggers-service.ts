@@ -15,8 +15,8 @@ const bloggersService = {
     bloggersRepository.getBloggerById(id),
 
   addBlogger: async (name: string, youtubeUrl: string): Promise<IBlogger> => {
-    const newBlogger = {
-      id: new Date().valueOf(),
+    const newBlogger: IBlogger = {
+      id: new Date().valueOf().toString(),
       name,
       youtubeUrl,
     };
