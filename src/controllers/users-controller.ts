@@ -11,8 +11,6 @@ export const addUser: RequestHandler = async (req, res): Promise<void> => {
 };
 
 export const getAllUsers: RequestHandler = async (req, res): Promise<void> => {
-  errorHandlingMiddleware(req, res);
-
   const users = await usersService.getAllUsers(
     Number(req.query.PageNumber),
     Number(req.query.PageSize)
