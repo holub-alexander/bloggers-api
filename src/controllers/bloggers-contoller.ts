@@ -1,6 +1,8 @@
 import { RequestHandler } from 'express';
 import bloggersService from '../domain/bloggers-service';
 import { errorHandlingMiddleware } from '../middlewares/error-handling-middleware';
+import errorsOccured from '../utils/errors-occured';
+import { validationResult } from 'express-validator';
 
 export const getAllBloggers: RequestHandler = async (req, res) => {
   errorHandlingMiddleware(req, res);
@@ -27,15 +29,25 @@ export const getBloggerById: RequestHandler = async (req, res) => {
 };
 
 export const addBlogger: RequestHandler = async (req, res) => {
-  errorHandlingMiddleware(req, res);
+  const errors = errorsOccured(validationResult(req));
 
-  const newBlogger = await bloggersService.addBlogger(req.body.name, req.body.youtubeUrl);
+  if (errors.errorsMessages.length > 0) {
+    res.status(400).send(errors);
+  } else {
+    const newBlogger = await bloggersService.addBlogger(req.body.name, req.body.youtubeUrl);
 
-  res.status(201).send(newBlogger);
+    res.status(201).send(newBlogger);
+  }
 };
 
 export const updateBloggerById: RequestHandler = async (req, res) => {
-  errorHandlingMiddleware(req, res);
+  const errors = errorsOccured(validationResult(req));
+
+  if (errors.errorsMessages.length > 0) {
+    res.status(400).send(errors);
+
+    return;
+  }
 
   const isUpdateBlogger = await bloggersService.updateBloggerById(
     req.params.id,
