@@ -5,7 +5,14 @@ import errorsOccured from '../utils/errors-occured';
 import { validationResult } from 'express-validator';
 
 export const getAllBloggers: RequestHandler = async (req, res) => {
-  errorHandlingMiddleware(req, res);
+  const errors = errorsOccured(validationResult(req));
+  const errorsMessages = errors.errorsMessages;
+
+  if (errorsMessages.length > 0) {
+    res.status(400).send(errors);
+
+    return;
+  }
 
   if (!req.query.SearchNameTerm || typeof req.query.SearchNameTerm === 'string') {
     const bloggers = await bloggersService.getAllBloggers(

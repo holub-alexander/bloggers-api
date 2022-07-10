@@ -1,9 +1,17 @@
 import { RequestHandler } from 'express';
 import usersService from '../domain/users-service';
-import { errorHandlingMiddleware } from '../middlewares/error-handling-middleware';
+import { validationResult } from 'express-validator';
+import errorsOccured from '../utils/errors-occured';
 
 export const addUser: RequestHandler = async (req, res): Promise<void> => {
-  errorHandlingMiddleware(req, res);
+  const errors = errorsOccured(validationResult(req));
+  const errorsMessages = errors.errorsMessages;
+
+  if (errorsMessages.length > 0) {
+    res.status(400).send(errors);
+
+    return;
+  }
 
   const newUser = await usersService.addUser(req.body.login, req.body.password);
 
