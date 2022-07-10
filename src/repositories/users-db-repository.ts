@@ -32,6 +32,8 @@ const usersRepository = {
 
   getUserByLogin: async (login: string): Promise<UserWithId | null> =>
     usersCollection.findOne({ login }),
+
+  getUserById: async (id: string): Promise<UserWithId | null> => usersCollection.findOne({ id }),
 };
 
 export default usersRepository;

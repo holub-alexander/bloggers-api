@@ -8,5 +8,14 @@ const jwtUtility = {
 
     return token;
   },
+  async extractAdminIdFromToken(token: string): Promise<{ id: string } | null> {
+    try {
+      const result: any = jwt.verify(token, JWT_SECRET);
+
+      return result;
+    } catch (error) {
+      return null;
+    }
+  },
 };
 export default jwtUtility;
