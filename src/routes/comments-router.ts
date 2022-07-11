@@ -4,6 +4,7 @@ import {
   deleteCommentById,
   getAllCommentsForPost,
   getCommentById,
+  updateCommentById,
 } from '../controllers/comments-controller';
 import authBearerMiddleware from '../middlewares/auth-bearer-middleware';
 import commentCreateSchema from '../utils/schemes/comment-create-schema';
@@ -23,5 +24,12 @@ commentsRouter.get('/posts/:postId/comments', postParamsSchema, getAllCommentsFo
 commentsRouter.get('/comments/:id', getCommentById);
 
 commentsRouter.delete('/comments/:commentId', authBearerMiddleware, deleteCommentById);
+
+commentsRouter.put(
+  '/comments/:commentId',
+  authBearerMiddleware,
+  commentCreateSchema,
+  updateCommentById
+);
 
 export default commentsRouter;

@@ -44,10 +44,36 @@ const commentsRepository = {
   deleteCommentById: async (commentId: string, userId: string): Promise<number> => {
     const findComment = await commentsRepository.getCommentById(commentId);
 
-    if (findComment && findComment.userId === userId) {
-      const deletedComment = await commentsCollection.deleteOne({ id: commentId });
+    if (!findComment) {
+      return 0;
+    }
 
-      return deletedComment.deletedCount === 1 ? 1 : 0;
+    if (findComment && findComment.userId === userId) {
+      await commentsCollection.deleteOne({ id: commentId });
+
+      return 1;
+    }
+
+    return -1;
+  },
+
+  updateCommentById: async (
+    commentId: string,
+    content: string,
+    userId: string
+  ): Promise<number> => {
+    const findComment = await commentsRepository.getCommentById(commentId);
+
+    console.log(findComment);
+
+    if (!findComment) {
+      return 0;
+    }
+
+    if (findComment && findComment.userId === userId) {
+      const comment = await commentsCollection.updateOne({ id: commentId }, { $set: { content } });
+
+      return comment.matchedCount === 1 ? 1 : 0;
     }
 
     return -1;

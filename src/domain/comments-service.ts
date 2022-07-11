@@ -47,6 +47,9 @@ const commentsService = {
 
   deleteCommentById: async (commentId: string, userId: string): Promise<number> =>
     commentsRepository.deleteCommentById(commentId, userId),
+
+  updateCommentById: async (commentId: string, content: string, userId: string): Promise<number> =>
+    commentsRepository.updateCommentById(commentId, content, userId),
 };
 
 export default commentsService;

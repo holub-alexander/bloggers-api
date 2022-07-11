@@ -76,3 +76,30 @@ export const deleteCommentById: RequestHandler = async (req, res) => {
       res.sendStatus(403);
   }
 };
+
+export const updateCommentById: RequestHandler = async (req, res) => {
+  const errors = errorsOccured(validationResult(req));
+
+  if (errors.errorsMessages.length > 0) {
+    res.status(400).send(errors);
+
+    return;
+  }
+
+  const updateCommentRes = await commentsService.updateCommentById(
+    req.params.commentId,
+    req.body.content,
+    req.user.id
+  );
+
+  switch (updateCommentRes) {
+    case 1:
+      res.sendStatus(204);
+      break;
+    case 0:
+      res.sendStatus(404);
+      break;
+    default:
+      res.sendStatus(403);
+  }
+};
