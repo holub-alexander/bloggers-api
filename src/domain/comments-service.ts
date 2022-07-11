@@ -1,4 +1,6 @@
+import { WithId } from 'mongodb';
 import { IComment } from '../interfaces/comment';
+import { IPaginator } from '../interfaces/paginator';
 import commentsRepository from '../repositories/comments-db-repository';
 
 const commentsService = {
@@ -21,8 +23,30 @@ const commentsService = {
     return newComment;
   },
 
-  getAllCommentsForPost: async (postId: string, pageNumber: number, pageSize: number) =>
-    commentsRepository.getAllCommentsForPost(postId, pageNumber, pageSize),
+  getAllCommentsForPost: async (
+    postId: string,
+    pageNumber: number,
+    pageSize: number
+  ): Promise<
+    IPaginator<
+      WithId<
+        IComment & {
+          postId: string;
+        }
+      >[]
+    >
+  > => commentsRepository.getAllCommentsForPost(postId, pageNumber, pageSize),
+
+  getCommentById: async (
+    id: string
+  ): Promise<WithId<
+    IComment & {
+      postId: string;
+    }
+  > | null> => commentsRepository.getCommentById(id),
+
+  deleteCommentById: async (commentId: string, userId: string): Promise<number> =>
+    commentsRepository.deleteCommentById(commentId, userId),
 };
 
 export default commentsService;
