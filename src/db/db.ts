@@ -1,5 +1,6 @@
 import { MongoClient } from 'mongodb';
 import { IBlogger } from '../interfaces/blogger';
+import { IComment } from '../interfaces/comment';
 import { IPost } from '../interfaces/post';
 import { UserWithId } from '../types/user-with-id';
 
@@ -16,6 +17,7 @@ export const db = client.db('bloggersData');
 export const bloggersCollection = db.collection<IBlogger>('bloggers');
 export const postsCollection = db.collection<IPost>('posts');
 export const usersCollection = db.collection<UserWithId>('users');
+export const commentsCollection = db.collection<IComment & { postId: string }>('comments');
 
 export async function runDb() {
   try {

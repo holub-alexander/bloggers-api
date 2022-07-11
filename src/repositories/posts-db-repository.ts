@@ -4,8 +4,7 @@ import { IPostInput } from '../interfaces/post-input';
 import { postsCollection } from '../db/db';
 import pagination from '../utils/pagination';
 import { IPaginator } from '../interfaces/paginator';
-import { ModifyResult, WithId } from 'mongodb';
-import { IComment } from '../interfaces/comment';
+import { WithId } from 'mongodb';
 
 const postsRepository = {
   getAllPosts: async (
@@ -54,13 +53,6 @@ const postsRepository = {
 
     return posts;
   },
-
-  addCommentForPost: async (postId: string, data: IComment): Promise<ModifyResult<IPost>> =>
-    postsCollection.findOneAndUpdate(
-      { id: postId },
-      { $push: { comments: data } },
-      { returnDocument: 'before' }
-    ),
 };
 
 export default postsRepository;

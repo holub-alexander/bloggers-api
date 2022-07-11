@@ -4,7 +4,6 @@ import { IPostInput } from '../interfaces/post-input';
 import postsRepository from '../repositories/posts-db-repository';
 import { IPaginator } from '../interfaces/paginator';
 import { WithId } from 'mongodb';
-import { IComment } from '../interfaces/comment';
 
 const postsService = {
   getAllPosts: async (pageNumber: number, pageSize: number): Promise<IPaginator<WithId<IPost>[]>> =>
@@ -39,29 +38,6 @@ const postsService = {
     pageSize: number
   ): Promise<IPaginator<WithId<IPost>[]>> =>
     postsRepository.getAllBloggerPosts(bloggerId, pageNumber, pageSize),
-
-  addCommentForPost: async (
-    postId: string,
-    data: { content: string; userId: string; userLogin: string }
-  ): Promise<IComment | null> => {
-    const { content, userId, userLogin } = data;
-
-    const newComment: IComment = {
-      id: new Date().valueOf().toString(),
-      content,
-      userId,
-      userLogin,
-      addedAt: new Date().toISOString(),
-    };
-
-    const res = await postsRepository.addCommentForPost(postId, newComment);
-
-    if (res.value) {
-      return newComment;
-    }
-
-    return null;
-  },
 };
 
 export default postsService;
