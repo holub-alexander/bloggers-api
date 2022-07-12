@@ -3,12 +3,19 @@ import { commentsCollection } from '../db/db';
 import { IComment } from '../interfaces/comment';
 import { IPaginator } from '../interfaces/paginator';
 import pagination from '../utils/pagination';
+import postsRepository from './posts-db-repository';
 
 const commentsRepository = {
-  addCommentForPost: async (postId: string, data: IComment): Promise<IComment> => {
-    await commentsCollection.insertOne({ postId, ...data, _id: undefined });
+  addCommentForPost: async (postId: string, data: IComment): Promise<IComment | null> => {
+    const findPost = await postsRepository.getPostById(postId);
 
-    return data;
+    if (findPost) {
+      await commentsCollection.insertOne({ postId, ...data, _id: undefined });
+
+      return data;
+    }
+
+    return null;
   },
 
   getAllCommentsForPost: async (

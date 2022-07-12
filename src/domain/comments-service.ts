@@ -7,7 +7,7 @@ const commentsService = {
   addCommentForPost: async (
     postId: string,
     data: { content: string; userId: string; userLogin: string }
-  ): Promise<IComment> => {
+  ): Promise<IComment | null> => {
     const { content, userId, userLogin } = data;
 
     const newComment: IComment = {
@@ -17,10 +17,9 @@ const commentsService = {
       userLogin,
       addedAt: new Date().toISOString(),
     };
+    const res = await commentsRepository.addCommentForPost(postId, newComment);
 
-    await commentsRepository.addCommentForPost(postId, newComment);
-
-    return newComment;
+    return res;
   },
 
   getAllCommentsForPost: async (
