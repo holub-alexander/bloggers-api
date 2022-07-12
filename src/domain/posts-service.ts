@@ -33,7 +33,7 @@ const postsService = {
   deletePostById: async (id: string): Promise<boolean> => postsRepository.deletePostById(id),
 
   getAllBloggerPosts: async (
-    bloggerId: number,
+    bloggerId: string,
     pageNumber: number,
     pageSize: number
   ): Promise<IPaginator<WithId<IPost>[]>> =>

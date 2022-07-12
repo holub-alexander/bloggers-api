@@ -45,10 +45,11 @@ const postsRepository = {
   },
 
   getAllBloggerPosts: async (
-    bloggerId: number,
+    bloggerId: string,
     pageNumber: number,
     pageSize: number
   ): Promise<IPaginator<WithId<IPost>[]>> => {
+    console.log(bloggerId);
     const posts = await pagination<IPost>(postsCollection, { bloggerId }, pageNumber, pageSize);
 
     return posts;

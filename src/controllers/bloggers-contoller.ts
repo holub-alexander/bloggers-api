@@ -1,6 +1,5 @@
 import { RequestHandler } from 'express';
 import bloggersService from '../domain/bloggers-service';
-import { errorHandlingMiddleware } from '../middlewares/error-handling-middleware';
 import errorsOccured from '../utils/errors-occured';
 import { validationResult } from 'express-validator';
 

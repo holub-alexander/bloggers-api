@@ -16,6 +16,8 @@ const pagination = async <T>(
 
   const arr = await data.toArray();
 
+  console.log(arr);
+
   const res: IPaginator<WithId<T>[]> = {
     pagesCount,
     page: pageNumber,

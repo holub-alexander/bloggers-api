@@ -138,7 +138,7 @@ export const getAllBloggerPosts: RequestHandler = async (req, res) => {
     }
 
     const posts = await postsService.getAllBloggerPosts(
-      +req.params.bloggerId,
+      req.params.bloggerId,
       Number(req.query.PageNumber),
       Number(req.query.PageSize)
     );
