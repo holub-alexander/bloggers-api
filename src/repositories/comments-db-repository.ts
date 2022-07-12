@@ -6,16 +6,21 @@ import pagination from '../utils/pagination';
 import postsRepository from './posts-db-repository';
 
 const commentsRepository = {
+  // @ts-ignore
   addCommentForPost: async (postId: string, data: IComment): Promise<IComment | null> => {
-    const findPost = await postsRepository.getPostById(postId);
+    try {
+      const findPost = await postsRepository.getPostById(postId);
 
-    if (findPost) {
-      await commentsCollection.insertOne({ postId, ...data, _id: undefined });
+      if (findPost) {
+        await commentsCollection.insertOne({ postId, ...data, _id: undefined });
 
-      return data;
+        return data;
+      }
+
+      return null;
+    } catch (err) {
+      console.log(err);
     }
-
-    return null;
   },
 
   getAllCommentsForPost: async (
