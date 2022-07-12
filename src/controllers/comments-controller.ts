@@ -53,12 +53,16 @@ export const getAllCommentsForPost: RequestHandler = async (req, res) => {
 };
 
 export const getCommentById: RequestHandler = async (req, res) => {
-  const comment = await commentsService.getCommentById(req.params.id);
+  try {
+    const comment = await commentsService.getCommentById(req.params.id);
 
-  if (comment) {
-    res.send(comment);
-  } else {
-    res.sendStatus(404);
+    if (comment) {
+      res.send(comment);
+    } else {
+      res.sendStatus(404);
+    }
+  } catch (err) {
+    console.log(err);
   }
 };
 
