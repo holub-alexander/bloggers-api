@@ -41,6 +41,8 @@ export const getAllCommentsForPost: RequestHandler = async (req, res) => {
 
   if (!post) {
     res.sendStatus(404);
+
+    return;
   }
 
   const comments = await commentsService.getAllCommentsForPost(
@@ -72,12 +74,13 @@ export const deleteCommentById: RequestHandler = async (req, res) => {
   switch (result) {
     case 1:
       res.sendStatus(204);
-      break;
+      return;
     case 0:
       res.sendStatus(404);
-      break;
+      return;
     default:
       res.sendStatus(403);
+      return;
   }
 };
 
@@ -99,11 +102,12 @@ export const updateCommentById: RequestHandler = async (req, res) => {
   switch (updateCommentRes) {
     case 1:
       res.sendStatus(204);
-      break;
+      return;
     case 0:
       res.sendStatus(404);
-      break;
+      return;
     default:
       res.sendStatus(403);
+      return;
   }
 };
